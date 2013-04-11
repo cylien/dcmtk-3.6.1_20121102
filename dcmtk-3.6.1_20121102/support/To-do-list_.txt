@@ -1,0 +1,42 @@
+To-do-list:
+
+**libtiff
+ *tif_read.c ()
+   libtiff\tif_read.c(97): warning C4244: 'function' : conversion from 'uint64' to 'size_t', possible loss of data
+   libtiff\tif_read.c(116): warning C4244: '=' : conversion from 'uint64' to 'tmsize_t', possible loss of data
+   libtiff\tif_read.c(121): warning C4244: '=' : conversion from 'uint64' to 'tmsize_t', possible loss of data
+   libtiff\tif_read.c(144): warning C4244: '=' : conversion from 'uint64' to 'tmsize_t', possible loss of data
+   libtiff\libtiff\tif_read.c(145): warning C4244: '=' : conversion from 'uint64' to 'tmsize_t', possible loss of data
+*
+**iconv.c
+  iconv\lib\utf7.h(162): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\utf7.h(331): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\hz.h(39): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\hz.h(51): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\hz.h(57): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\hz.h(65): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\hz.h(80): warning C4018: '<' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(47): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(91): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(142): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(258): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(418): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(422): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(503): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\loop_unicode.h(519): warning C4018: '<=' : signed/unsigned mismatch
+  iconv\iconv\lib\iconv.c(249): warning C4028: formal parameter 2 different from declaration
+  iconv\iconv\lib\iconv.c(427): warning C4090: 'function' : different 'const' qualifiers 
+   
+**libxml2
+*xmlschemastypes.c
+  libxml2\xmlschemastypes.c(35): warning C4005: 'DEBUG' : macro redefinition command-line arguments :  see previous definition of 'DEBUG'
+*dict.c
+  libxml2\libxml2\dict.c(239): warning C4018: '>' : signed/unsigned mismatch
+  libxml2\libxml2\dict.c(307): warning C4018: '>' : signed/unsigned mismatch
+*nanohttp.c
+  libxml2\libxml2\nanohttp.c(1030): warning C4101: 'h' : unreferenced local variable
+  libxml2\libxml2\nanohttp.c(1039): warning C4101: 'i' : unreferenced local variable
+  libxml2\libxml2\nanohttp.c(1032): warning C4101: 'ia' : unreferenced local variable
+*parser.c
+  libxml2\parser.c(2028): warning C4113: 'int (__cdecl *)(void)' differs in parameter lists from 'xmlInputReadCallback'
+  

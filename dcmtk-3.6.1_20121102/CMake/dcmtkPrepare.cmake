@@ -39,14 +39,27 @@ SET(DCMTK_LIBRARY_PROPERTIES VERSION "${DCMTK_PACKAGE_VERSION}" SOVERSION "${DCM
 # General build options and settings
 OPTION(BUILD_APPS "Build command line applications and test programs." ON)
 OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
+OPTION(BUILD_WITH_3RD_LIBS "Integrated build with supported libraries." ON)
+OPTION(BUILD_WITH_PRE_BUILT_3RD_LIBS "build with the pre-bulit supported libraries." OFF)
 OPTION(BUILD_SINGLE_SHARED_LIBRARY "Build a single DCMTK library." OFF)
 MARK_AS_ADVANCED(BUILD_SINGLE_SHARED_LIBRARY)
 SET(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Library postfix for debug builds. Usually left blank.")
-SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/${DCMTK_CMAKE_INCLUDE}/CMake/")
+SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake/")
 IF(BUILD_SINGLE_SHARED_LIBRARY)
   # When we are building a single shared lib, we are building shared libs :-)
   SET(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
 ENDIF(BUILD_SINGLE_SHARED_LIBRARY)
+  # When we are building with the integrated supported library, the pre-built supported libraries should be disabled.
+IF(BUILD_WITH_3RD_LIBS)
+  # When we are building a single shared lib, we are building shared libs :-)
+  SET(BUILD_WITH_PRE_BUILT_3RD_LIBS OFF CACHE BOOL "" FORCE)
+ENDIF(BUILD_WITH_3RD_LIBS)
+  # When we are building with the pre-built supported libraries, the integrated supported libraries should be disabled.
+IF(BUILD_WITH_PRE_BUILT_3RD_LIBS)
+  # When we are building a single shared lib, we are building shared libs :-)
+  SET(BUILD_WITH_3RD_LIBS OFF CACHE BOOL "" FORCE)
+ENDIF(BUILD_WITH_PRE_BUILT_3RD_LIBS)
+
 
 # DCMTK build options
 OPTION(DCMTK_WITH_TIFF "Configure DCMTK with support for TIFF." ON)
@@ -56,6 +69,9 @@ OPTION(DCMTK_WITH_ZLIB "Configure DCMTK with support for ZLIB." ON)
 OPTION(DCMTK_WITH_OPENSSL "Configure DCMTK with support for OPENSSL." ON)
 OPTION(DCMTK_WITH_SNDFILE "Configure DCMTK with support for SNDFILE." ON)
 OPTION(DCMTK_WITH_ICONV "Configure DCMTK with support for ICONV." ON)
+IF(NOT WIN32)
+  OPTION(DCMTK_WITH_WRAP "Configure DCMTK with support for WRAP." ON)
+ENDIF(NOT WIN32)
 OPTION(DCMTK_WITH_PRIVATE_TAGS "Configure DCMTK with support for DICOM private tags coming with DCMTK." OFF)
 OPTION(DCMTK_WITH_THREADS "Configure DCMTK with support for multi-threading." ON)
 OPTION(DCMTK_WITH_DOXYGEN "Build API documentation with doxygen." ON)
@@ -107,7 +123,7 @@ IF(COMMAND CMAKE_POLICY)
 ENDIF(COMMAND CMAKE_POLICY)
 
 # pass optional build date to compiler
-ADD_DEFINITIONS("-DDCMTK_BUILD_DATE=\\\"2012-11-02\\\"")
+#ADD_DEFINITIONS("-DDCMTK_BUILD_DATE=\\\"YYYY-MM-DD\\\"")
 
 # make OFString(NULL) safe by default
 ADD_DEFINITIONS("-DUSE_NULL_SAFE_OFSTRING")
@@ -288,8 +304,8 @@ INCLUDE(${DCMTK_CMAKE_INCLUDE}CMake/3rdparty.cmake)
 # DCMTK libraries
 #-----------------------------------------------------------------------------
 
-INCLUDE(${DCMTK_CMAKE_INCLUDE}CMake/dcmtkMacros.cmake)
-INCLUDE(${DCMTK_CMAKE_INCLUDE}CMake/GenerateDCMTKConfigure.cmake)
+INCLUDE(${CMAKE_MODULE_PATH}/dcmtkMacros.cmake)
+INCLUDE(${CMAKE_MODULE_PATH}/GenerateDCMTKConfigure.cmake)
 
 #-----------------------------------------------------------------------------
 # Dart configuration (disabled per default)

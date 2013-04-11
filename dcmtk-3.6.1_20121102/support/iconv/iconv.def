@@ -1,0 +1,12 @@
+LIBRARY      ICONV
+EXPORTS
+  _libiconv_version  @1
+  libiconv           @2
+  libiconv_open      @3
+  libiconv_close     @4
+  libiconv_open_into @5
+  libiconvctl        @6
+  libiconvlist       @7
+  iconv_canonicalize @8
+  locale_charset     @9
+;  libiconv_set_relocation_prefix @10

@@ -65,7 +65,7 @@ END_EXTERN_C
 #ifdef _LARGEFILE64_SOURCE
   // Mac OS X defines _LARGEFILE64_SOURCE but anyhow expects implicit 64 bit calls.
   // The same is true for current Cygwin versions (tested with version 1.7.7-1).
-  #if !(defined(__MACH__) && defined(__APPLE__)) && !defined(__CYGWIN__)
+  #if !(defined(__MACH__) && defined(__APPLE__)) && !defined(__CYGWIN__) && !defined(__MINGW32__)
     #define EXPLICIT_LFS_64
   #endif
 #endif
@@ -381,7 +381,7 @@ public:
   OFBool popen(const char *command, const char *modes)
   {
     if (file_) fclose();
-#if defined(_WIN32) && !defined(__MINGW64__)
+#if defined(_WIN32) && !defined(__MINGW64__) && !defined(__MINGW32__)
     file_ = _popen(command, modes);
 #else
     file_ = :: popen(command, modes);
@@ -401,7 +401,7 @@ public:
    */
   OFBool freopen(const char *filename, const char *modes)
   {
-#if defined(EXPLICIT_LFS_64) && ! defined(__MINGW32__)
+#if defined(EXPLICIT_LFS_64) && !defined(__MINGW32__)
     // MinGW has EXPLICIT_LFS_64 but no freopen64()
     file_ = :: freopen64(filename, modes, file_);
 #else
@@ -419,7 +419,7 @@ public:
   OFBool tmpfile()
   {
     if (file_) fclose();
-#if defined(EXPLICIT_LFS_64) && ! defined(__MINGW32__)
+#if defined(EXPLICIT_LFS_64) && !defined(__MINGW32__)
     // MinGW has EXPLICIT_LFS_64 but no tmpfile64()
     file_ = :: tmpfile64();
 #else
@@ -443,7 +443,7 @@ public:
     {
       if (popened_)
       {
-#if defined(_WIN32) && !defined(__MINGW64__)
+#if defined(_WIN32) && !defined(__MINGW64__) && !defined(__MINGW32__)
         result = _pclose(file_);
 #else
         result = :: pclose(file_);
@@ -811,7 +811,7 @@ public:
   int fgetpos(offile_fpos_t *pos)
   {
     int result;
-#if defined(EXPLICIT_LFS_64) && ! defined(__MINGW32__)
+#if defined(EXPLICIT_LFS_64) && !defined(__MINGW32__)
     // MinGW has EXPLICIT_LFS_64 but no fgetpos64()
     result = :: fgetpos64(file_, pos);
 #else
@@ -831,7 +831,7 @@ public:
   int fsetpos(offile_fpos_t *pos)
   {
     int result;
-#if defined(EXPLICIT_LFS_64) && ! defined(__MINGW32__)
+#if defined(EXPLICIT_LFS_64) && !defined(__MINGW32__)
     // MinGW has EXPLICIT_LFS_64 but no fsetpos64()
     result = :: fsetpos64(file_, pos);
 #else
