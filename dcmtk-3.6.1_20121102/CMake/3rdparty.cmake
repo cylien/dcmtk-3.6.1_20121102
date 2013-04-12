@@ -7,22 +7,27 @@ IF(WIN32)
     # libxml support: find out whether user has library
     GET_FILENAME_COMPONENT(LIBXML_DIR "${DCMTK_SOURCE_DIR}/../libxml2-2.7.7" ABSOLUTE)
     FIND_PATH(WITH_LIBXMLINC "/include/libxml/parser.h" "${LIBXML_DIR}"/ NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(LIBXML_DIR WITH_LIBXMLINC)
 
     # libpng support: find out whether user has library
     GET_FILENAME_COMPONENT(LIBPNG_DIR "${DCMTK_SOURCE_DIR}/../libpng-1.4.2" ABSOLUTE)
     FIND_PATH(WITH_LIBPNGINC "include/png.h" "${LIBPNG_DIR}" NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(LIBPNG_DIR WITH_LIBPNGINC)
 
     # libtiff support: find out whether user has library
     GET_FILENAME_COMPONENT(LIBTIFF_DIR "${DCMTK_SOURCE_DIR}/../tiff-3.9.2" ABSOLUTE)
     FIND_PATH(WITH_LIBTIFFINC "include/tiff.h" "${LIBTIFF_DIR}" NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(LIBTIFF_DIR WITH_LIBTIFFINC)
 
     # OpenSSL support: find out whether user has library
     GET_FILENAME_COMPONENT(OPENSSL_DIR "${DCMTK_SOURCE_DIR}/../openssl-1.0.0" ABSOLUTE)
     FIND_PATH(WITH_OPENSSLINC "include/openssl/ssl.h" "${OPENSSL_DIR}" NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(OPENSSL_DIR WITH_OPENSSLINC)
 
     # zlib support: find out whether user has library
     GET_FILENAME_COMPONENT(ZLIB_DIR "${DCMTK_SOURCE_DIR}/../zlib-1.2.5" ABSOLUTE)
     FIND_PATH(WITH_ZLIBINC "include/zlib.h" "${ZLIB_DIR}" NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(ZLIB_DIR WITH_ZLIBINC)
 
     # sndfile support: find out whether user has library. Needed for module dcmwave (not in public DCMTK yet, marked as advanced)
     GET_FILENAME_COMPONENT(SNDFILE_DIR "${DCMTK_SOURCE_DIR}/../libsndfile-1.0.17" ABSOLUTE)
@@ -32,6 +37,7 @@ IF(WIN32)
     # libiconv support: find out whether user has library
     GET_FILENAME_COMPONENT(LIBICONV_DIR "${DCMTK_SOURCE_DIR}/../libiconv-1.14" ABSOLUTE)
     FIND_PATH(WITH_LIBICONVINC "include/iconv.h" "${LIBICONV_DIR}" NO_DEFAULT_PATH)
+    MARK_AS_ADVANCED(LIBXML_DIR WITH_LIBXMLINC)
 
     # libxml support: configure compiler
     IF(DCMTK_WITH_XML)
@@ -185,7 +191,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_XML)
       IF(WITH_LIBXMLINC)
         # parse the full version number from libxml2.spec and include in LIBXML2_FULL_VERSION
-        FILE(READ ${XML2_ORIGN_DIR}/libxml2.spec LIBXML2_SPEC)
+        FILE(READ ${WITH_LIBXMLINC}/libxml2.spec LIBXML2_SPEC)
         STRING(REGEX REPLACE ".*Version:[ \t]+([-0-9A-Za-z.]+).*" "\\1" LIBXML2_FULL_VERSION ${LIBXML2_SPEC})
         MESSAGE(STATUS "Info: DCMTK XML support will be enabled, XML version: ${LIBXML2_FULL_VERSION}")
         SET(LIBXML_LIBS ${XML2_LIBRARY})
@@ -203,7 +209,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_TIFF)
       IF(WITH_LIBTIFFINC)
         # parse the full version number from VERSION and include in TIFF_FULL_VERSION
-        FILE(READ "${TIFF_ORIGN_DIR}/VERSION" TIFF_FULL_VERSION)
+        FILE(READ ${WITH_LIBTIFFINC}/VERSION TIFF_FULL_VERSION)
         STRING(REGEX REPLACE "([-0-9A-Za-z]+).*." "\\1" TIFF_MAJOR_VERSION ${TIFF_FULL_VERSION})
         MESSAGE(STATUS "Info: DCMTK TIFF support will be enabled, TIFF version: ${TIFF_FULL_VERSION}")
         SET(LIBTIFF_LIBS ${TIFF_LIBRARY})
@@ -221,7 +227,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_PNG)
       IF(WITH_LIBPNGINC)
         # parse the full version number from png.h and include in PNG_FULL_VERSION
-        FILE(READ "${PNG_ORIGN_DIR}/png.h" _png_h_contents)
+        FILE(READ ${WITH_LIBPNGINC}/png.h _png_h_contents)
         STRING(REGEX REPLACE ".*#define[ \t]+PNG_LIBPNG_VER_STRING[ \t]+\"([-0-9A-Za-z.]+)\".*"
           "\\1" PNG_FULL_VERSION ${_png_h_contents})
         STRING(REGEX REPLACE "([-0-9A-Za-z]+).*." "\\1" PNG_MAJOR_VERSION ${PNG_FULL_VERSION})
@@ -241,7 +247,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_ZLIB)
       IF(WITH_ZLIBINC)
         # parse the full version number from zlib.h and include in ZLIB_FULL_VERSION
-        FILE(READ ${ZLIB_ORIGN_DIR}/zlib.h _zlib_h_contents)
+        FILE(READ ${WITH_ZLIBINC}/zlib.h _zlib_h_contents)
         STRING(REGEX REPLACE ".*#define[ \t]+ZLIB_VERSION[ \t]+\"([-0-9A-Za-z.]+)\".*"
                "\\1" ZLIB_FULL_VERSION ${_zlib_h_contents})
         STRING(REGEX REPLACE "([-0-9A-Za-z]+).*." "\\1" ZLIB_MAJOR_VERSION ${ZLIB_FULL_VERSION})
@@ -261,7 +267,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_OPENSSL)
       IF(WITH_OPENSSLINC)
         # parse the full version number from openssl.spec and include in OPENSSL_FULL_VERSION
-        FILE(READ ${OPENSSL_ORIGN_DIR}/openssl.spec OPENSSL_SPEC)
+        FILE(READ ${WITH_OPENSSLINC}/openssl.spec OPENSSL_SPEC)
         STRING(REGEX REPLACE ".*%define[ \t]libmaj[ \t]+([-0-9A-Za-z]+).*" "\\1" OPENSSL_V_MAJ ${OPENSSL_SPEC})
         STRING(REGEX REPLACE ".*%define[ \t]libmin[ \t]+([-0-9A-Za-z]+).*" "\\1" OPENSSL_V_MIN ${OPENSSL_SPEC})
         STRING(REGEX REPLACE ".*%define[ \t]librel[ \t]+([-0-9A-Za-z]+).*" "\\1" OPENSSL_V_REL ${OPENSSL_SPEC})
@@ -284,7 +290,7 @@ ENDIF(WIN32)
     IF(DCMTK_WITH_ICONV)
       IF(WITH_LIBICONVINC)
         # parse the full version number from iconv.h and include in ICONV_FULL_VERSION
-        FILE(READ ${ICONV_ORIGN_DIR}/include/iconv.h.build.in _iconv_h_contents)
+        FILE(READ ${WITH_LIBICONVINC}/include/iconv.h.build.in _iconv_h_contents)
         STRING(REGEX REPLACE ".*#define[ \t]+_LIBICONV_VERSION[ \t]+([-0-9A-Za-z]+).*"
                "\\1" ICONV_FULL_VERSION ${_iconv_h_contents})
         STRING(SUBSTRING ${ICONV_FULL_VERSION} 3 1 ICONV_MAJOR_VERSION)

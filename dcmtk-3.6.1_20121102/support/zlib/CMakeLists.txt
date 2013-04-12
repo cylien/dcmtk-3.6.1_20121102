@@ -39,55 +39,55 @@ SET(CMAKE_REQUIRED_DEFINITIONS -D_LARGEFILE64_SOURCE=1)
 IF(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
     # If we're doing an out of source build and the user has a zconf.h
     # in their source tree
-    IF(EXISTS ${ZLIB_ORIGN_DIR}/zconf.h)
+    IF(EXISTS ${WITH_ZLIBINC}/zconf.h)
         MESSAGE(STATUS "Renaming")
-        MESSAGE(STATUS "${ZLIB_ORIGN_DIR}/zconf.h")
+        MESSAGE(STATUS "${WITH_ZLIBINC}/zconf.h")
         MESSAGE(STATUS "to 'zconf.h.included' because this file is included with zlib")
         MESSAGE(STATUS "but CMake generates it automatically in the build directory.")
-        FILE(RENAME ${ZLIB_ORIGN_DIR}/zconf.h ${ZLIB_ORIGN_DIR}/zconf.h.included)
+        FILE(RENAME ${WITH_ZLIBINC}/zconf.h ${WITH_ZLIBINC}/zconf.h.included)
   ENDIF()
 endif()
-SET(ZLIB_PC ${ZLIB_ORIGN_DIR}/zlib.pc)
-CONFIGURE_FILE(${ZLIB_ORIGN_DIR}/zlib.pc.cmakein ${ZLIB_PC} @ONLY)
-CONFIGURE_FILE(${ZLIB_ORIGN_DIR}/zconf.h.cmakein ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zconf.h @ONLY)
-INCLUDE_DIRECTORIES(${ZLIB_ORIGN_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY})
+SET(ZLIB_PC ${WITH_ZLIBINC}/zlib.pc)
+CONFIGURE_FILE(${WITH_ZLIBINC}/zlib.pc.cmakein ${ZLIB_PC} @ONLY)
+CONFIGURE_FILE(${WITH_ZLIBINC}/zconf.h.cmakein ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zconf.h @ONLY)
+INCLUDE_DIRECTORIES(${WITH_ZLIBINC} ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY})
 
 #-----------------------------------------------------------------------------
 # zlib
 #-----------------------------------------------------------------------------
 set(ZLIB_PUBLIC_HDRS
   ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zconf.h
-  ${ZLIB_ORIGN_DIR}/zlib.h)
+  ${WITH_ZLIBINC}/zlib.h)
 set(ZLIB_PRIVATE_HDRS
-  ${ZLIB_ORIGN_DIR}/crc32.h
-  ${ZLIB_ORIGN_DIR}/deflate.h
-  ${ZLIB_ORIGN_DIR}/gzguts.h
-  ${ZLIB_ORIGN_DIR}/inffast.h
-  ${ZLIB_ORIGN_DIR}/inffixed.h
-  ${ZLIB_ORIGN_DIR}/inflate.h
-  ${ZLIB_ORIGN_DIR}/inftrees.h
-  ${ZLIB_ORIGN_DIR}/trees.h
-  ${ZLIB_ORIGN_DIR}/zutil.h)
+  ${WITH_ZLIBINC}/crc32.h
+  ${WITH_ZLIBINC}/deflate.h
+  ${WITH_ZLIBINC}/gzguts.h
+  ${WITH_ZLIBINC}/inffast.h
+  ${WITH_ZLIBINC}/inffixed.h
+  ${WITH_ZLIBINC}/inflate.h
+  ${WITH_ZLIBINC}/inftrees.h
+  ${WITH_ZLIBINC}/trees.h
+  ${WITH_ZLIBINC}/zutil.h)
 set(ZLIB_SRCS
-  ${ZLIB_ORIGN_DIR}/adler32.c
-  ${ZLIB_ORIGN_DIR}/compress.c
-  ${ZLIB_ORIGN_DIR}/crc32.c
-  ${ZLIB_ORIGN_DIR}/deflate.c
-  ${ZLIB_ORIGN_DIR}/gzclose.c
-  ${ZLIB_ORIGN_DIR}/gzlib.c
-  ${ZLIB_ORIGN_DIR}/gzread.c
-  ${ZLIB_ORIGN_DIR}/gzwrite.c
-  ${ZLIB_ORIGN_DIR}/inflate.c
-  ${ZLIB_ORIGN_DIR}/infback.c
-  ${ZLIB_ORIGN_DIR}/inftrees.c
-  ${ZLIB_ORIGN_DIR}/inffast.c
-  ${ZLIB_ORIGN_DIR}/trees.c
-  ${ZLIB_ORIGN_DIR}/uncompr.c
-  ${ZLIB_ORIGN_DIR}/zutil.c)
+  ${WITH_ZLIBINC}/adler32.c
+  ${WITH_ZLIBINC}/compress.c
+  ${WITH_ZLIBINC}/crc32.c
+  ${WITH_ZLIBINC}/deflate.c
+  ${WITH_ZLIBINC}/gzclose.c
+  ${WITH_ZLIBINC}/gzlib.c
+  ${WITH_ZLIBINC}/gzread.c
+  ${WITH_ZLIBINC}/gzwrite.c
+  ${WITH_ZLIBINC}/inflate.c
+  ${WITH_ZLIBINC}/infback.c
+  ${WITH_ZLIBINC}/inftrees.c
+  ${WITH_ZLIBINC}/inffast.c
+  ${WITH_ZLIBINC}/trees.c
+  ${WITH_ZLIBINC}/uncompr.c
+  ${WITH_ZLIBINC}/zutil.c)
 
 IF(NOT MINGW)
   # If present will override custom build rule below.
-  SET(ZLIB_SRCS ${ZLIB_SRCS} ${ZLIB_ORIGN_DIR}/win32/zlib1.rc)
+  SET(ZLIB_SRCS ${ZLIB_SRCS} ${WITH_ZLIBINC}/win32/zlib1.rc)
 ENDIF(NOT MINGW)
 
 IF(MINGW)
@@ -98,10 +98,10 @@ IF(MINGW)
   ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zlib1rc.obj
     COMMAND ${CMAKE_RC_COMPILER}
             -D GCC_WINDRES
-            -I ${ZLIB_ORIGN_DIR}
+            -I ${WITH_ZLIBINC}
             -I $${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/
             -o ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zlib1rc.obj
-            -i ${ZLIB_ORIGN_DIR}/win32/zlib1.rc)
+            -i ${WITH_ZLIBINC}/win32/zlib1.rc)
   SET(ZLIB_SRCS ${ZLIB_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zlib1rc.obj)
 ENDIF(MINGW)
 

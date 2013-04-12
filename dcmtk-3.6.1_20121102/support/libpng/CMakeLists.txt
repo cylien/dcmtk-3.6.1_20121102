@@ -20,7 +20,7 @@ ENDIF()
 # Some needed to define
 ADD_DEFINITIONS(-DPNG_CONFIGURE_LIBPNG)
 IF(BUILD_SHARED_LIBS)
-  ADD_DEFINITIONS(-DPNG_BUILD_DLL)
+  ADD_DEFINITIONS(-DPNG_BUILD_DLL )
 ENDIF(BUILD_SHARED_LIBS)
 ENABLE_TESTING()
 #-----------------------------------------------------------------------------
@@ -30,41 +30,41 @@ ENABLE_TESTING()
 # TODO: fix this by building with awk; without this no cmake build can be
 # configured directly (to do so indirectly use your local awk to build a
 # pnglibconf.h in the build directory.)
-CONFIGURE_FILE(${PNG_ORIGN_DIR}/scripts/pnglibconf.h.prebuilt          
+CONFIGURE_FILE(${WITH_LIBPNGINC}/scripts/pnglibconf.h.prebuilt
                ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY}/pnglibconf.h)              
-INCLUDE_DIRECTORIES(${PNG_ORIGN_DIR} 
+INCLUDE_DIRECTORIES(${WITH_LIBPNGINC}
   ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY} 
-  ${ZLIB_ORIGN_DIR}
+  ${WITH_ZLIBINC}
   ${CMAKE_BINARY_DIR}/${3RDLIB_FOLDER_NAME}/${ZLIB_LIBRARY}/${ZLIB_LIBRARY})
 
 #-----------------------------------------------------------------------------
 # libpng
 #-----------------------------------------------------------------------------
 set(LIBPNG_PUBLIC_HDRS
-  ${PNG_ORIGN_DIR}/png.h
-  ${PNG_ORIGN_DIR}/pngconf.h
+  ${WITH_LIBPNGINC}/png.h
+  ${WITH_LIBPNGINC}/pngconf.h
   ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY}/pnglibconf.h
 )
 set(LIBPNG_SOURCES
-  ${PNG_ORIGN_DIR}/pngdebug.h
-  ${PNG_ORIGN_DIR}/pnginfo.h
-  ${PNG_ORIGN_DIR}/pngpriv.h
-  ${PNG_ORIGN_DIR}/pngstruct.h
-  ${PNG_ORIGN_DIR}/png.c
-  ${PNG_ORIGN_DIR}/pngerror.c
-  ${PNG_ORIGN_DIR}/pngget.c
-  ${PNG_ORIGN_DIR}/pngmem.c
-  ${PNG_ORIGN_DIR}/pngpread.c
-  ${PNG_ORIGN_DIR}/pngread.c
-  ${PNG_ORIGN_DIR}/pngrio.c
-  ${PNG_ORIGN_DIR}/pngrtran.c
-  ${PNG_ORIGN_DIR}/pngrutil.c
-  ${PNG_ORIGN_DIR}/pngset.c
-  ${PNG_ORIGN_DIR}/pngtrans.c
-  ${PNG_ORIGN_DIR}/pngwio.c
-  ${PNG_ORIGN_DIR}/pngwrite.c
-  ${PNG_ORIGN_DIR}/pngwtran.c
-  ${PNG_ORIGN_DIR}/pngwutil.c
+  ${WITH_LIBPNGINC}/pngdebug.h
+  ${WITH_LIBPNGINC}/pnginfo.h
+  ${WITH_LIBPNGINC}/pngpriv.h
+  ${WITH_LIBPNGINC}/pngstruct.h
+  ${WITH_LIBPNGINC}/png.c
+  ${WITH_LIBPNGINC}/pngerror.c
+  ${WITH_LIBPNGINC}/pngget.c
+  ${WITH_LIBPNGINC}/pngmem.c
+  ${WITH_LIBPNGINC}/pngpread.c
+  ${WITH_LIBPNGINC}/pngread.c
+  ${WITH_LIBPNGINC}/pngrio.c
+  ${WITH_LIBPNGINC}/pngrtran.c
+  ${WITH_LIBPNGINC}/pngrutil.c
+  ${WITH_LIBPNGINC}/pngset.c
+  ${WITH_LIBPNGINC}/pngtrans.c
+  ${WITH_LIBPNGINC}/pngwio.c
+  ${WITH_LIBPNGINC}/pngwrite.c
+  ${WITH_LIBPNGINC}/pngwtran.c
+  ${WITH_LIBPNGINC}/pngwutil.c
 )
 
 #-----------------------------------------------------------------------------
