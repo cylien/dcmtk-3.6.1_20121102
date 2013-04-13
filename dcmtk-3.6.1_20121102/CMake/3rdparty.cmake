@@ -160,8 +160,8 @@ ENDIF(WIN32)
     SET(ICONV_LIBRARY   "iconv")
     SET(XML2_LIBRARY    "libxml2")
     SET(OPENSSL_LIBRARY "openssl")
-    SET(SSL_LIBRARY "ssleay32")
-    SET(CRYPTO_LIBRARY "libeay32")
+    SET(SSL_LIBRARY "dcmtkeay")
+    SET(CRYPTO_LIBRARY "ssleay")
 
     # libxml support: find out whether user has library
     GET_FILENAME_COMPONENT(XML2_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/libxml2-2.9.0" ABSOLUTE)
@@ -172,11 +172,11 @@ ENDIF(WIN32)
     FIND_PATH(WITH_LIBTIFFINC "VERSION" "${TIFF_ORIGN_DIR}" NO_DEFAULT_PATH)
 
     # libtiff support: find out whether user has library
-    GET_FILENAME_COMPONENT(PNG_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/lpng1513" ABSOLUTE)
+    GET_FILENAME_COMPONENT(PNG_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/lpng161" ABSOLUTE)
     FIND_PATH(WITH_LIBPNGINC "png.h" "${PNG_ORIGN_DIR}" NO_DEFAULT_PATH)
 
     # OpenSSL support: find out whether user has library
-    GET_FILENAME_COMPONENT(OPENSSL_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/openssl-1.0.1c" ABSOLUTE)
+    GET_FILENAME_COMPONENT(OPENSSL_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/openssl-1.0.1e" ABSOLUTE)
     FIND_PATH(WITH_OPENSSLINC "include/openssl/ssl.h" "${OPENSSL_ORIGN_DIR}" NO_DEFAULT_PATH)
 
     # zlib support: find out whether user has library
@@ -274,7 +274,6 @@ ENDIF(WIN32)
         STRING(REGEX REPLACE ".*%define[ \t]librev[ \t]+([-0-9A-Za-z]+).*" "\\1" OPENSSL_V_REV ${OPENSSL_SPEC})
         SET(OPENSSL_FULL_VERSION "${OPENSSL_V_MAJ}.${OPENSSL_V_MIN}.${OPENSSL_V_REL}.${OPENSSL_V_REV}")
         SET(OPENSSL_LIBS ${CRYPTO_LIBRARY} ${SSL_LIBRARY})
-        SET(OPENSSL_BINDIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
         SET(OPENSSL_INCDIR ${CMAKE_BINARY_DIR}/${3RDLIB_FOLDER_NAME}/${OPENSSL_LIBRARY}/${OPENSSL_LIBRARY}/inc32/ ${WITH_OPENSSLINC})
         MESSAGE(STATUS "Info: DCMTK OPENSSL support will be enabled, OPENSSL version: ${OPENSSL_FULL_VERSION}")
         SET(WITH_OPENSSL 1)
