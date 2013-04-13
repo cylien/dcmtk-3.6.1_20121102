@@ -11,10 +11,6 @@ FIND_PROGRAM(PERL perl)
 IF(NOT PERL)
   MESSAGE(SEND_ERROR "PERL does not be installed.")
 ENDIF()
-SET(SSL_LIBRARY "ssleay32")
-SET(CRYPTO_LIBRARY "libeay32")
-SET(OUTPUT_SSL_NAME "dcmtkssl")
-SET(OUTPUT_CRYPTO_NAME "dcmtkeay")
 ENABLE_TESTING()
 
 #-----------------------------------------------------------------------------
@@ -65,21 +61,19 @@ ENDIF(WIN32)
 SET(PL_CP_FILES)
 IF(WIN32)
   IF(MSVC)
-    ADD_CUSTOM_COMMAND(OUTPUT ${WITH_OPENSSLINC}/Configure
-        COMMAND ${PERL} Configure no-asm VC-WIN32
-        WORKING_DIRECTORY ${WITH_OPENSSLINC})
-     SET(COPY_CMD ${PERL} util/copy.pl)
+    SET(PERL_PER_Command ${PERL} Configure no-asm VC-WIN32)
+    SET(COPY_CMD ${PERL} util/copy.pl)
   ENDIF(MSVC)
   IF(MINGW)
-    ADD_CUSTOM_COMMAND(OUTPUT ${WITH_OPENSSLINC}/Configure
-        COMMAND ${PERL} Configure no-asm mingw
-        WORKING_DIRECTORY ${WITH_OPENSSLINC})
+    SET(PERL_PER_Command ${PERL} Configure no-asm mingw)
     SET(COPY_CMD cmake -E copy)
   ENDIF(MINGW)
+
   FOREACH(_FILE ${PERL_TMP_D_HEADER})
     GET_FILENAME_COMPONENT(NAME ${_FILE} NAME)
     SET(OUTFILE ${INC_D}/${NAME})
     ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILE}
+      COMMAND ${PERL_PER_Command}
       COMMAND ${COPY_CMD} ${_FILE} ${OUTFILE}
       WORKING_DIRECTORY ${WITH_OPENSSLINC}
       DEPENDS ${WITH_OPENSSLINC}/${_FILE})
@@ -89,6 +83,7 @@ IF(WIN32)
     GET_FILENAME_COMPONENT(NAME ${_FILE} NAME)
     SET(OUTFILE ${INCO_D}/${NAME})
     ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILE}
+      COMMAND ${PERL_PER_Command}
       COMMAND ${COPY_CMD} ${_FILE} ${OUTFILE}
       WORKING_DIRECTORY ${WITH_OPENSSLINC}
       DEPENDS ${WITH_OPENSSLINC}/${_FILE})
@@ -127,6 +122,7 @@ SET(SSL_SRCS ${SSL_SRC}/s2_meth.c
   ${SSL_SRC}/s2_enc.c ${SSL_SRC}/s2_pkt.c ${SSL_SRC}/s3_meth.c
   ${SSL_SRC}/s3_srvr.c ${SSL_SRC}/s3_clnt.c ${SSL_SRC}/s3_lib.c
   ${SSL_SRC}/s3_enc.c ${SSL_SRC}/s3_pkt.c ${SSL_SRC}/s3_both.c
+  ${SSL_SRC}/s3_cbc.c
   ${SSL_SRC}/s23_meth.c ${SSL_SRC}/s23_srvr.c ${SSL_SRC}/s23_clnt.c
   ${SSL_SRC}/s23_lib.c ${SSL_SRC}/s23_pkt.c ${SSL_SRC}/t1_meth.c
   ${SSL_SRC}/t1_srvr.c ${SSL_SRC}/t1_clnt.c ${SSL_SRC}/t1_lib.c
@@ -227,6 +223,7 @@ SET(CRYPTO_SRCS ${CRYPTO_SRC}/cryptlib.c
   ${CRYPTO_SRC}/err/err_prn.c	${CRYPTO_SRC}/objects/o_names.c ${CRYPTO_SRC}/objects/obj_dat.c
   ${CRYPTO_SRC}/objects/obj_lib.c	${CRYPTO_SRC}/objects/obj_err.c ${CRYPTO_SRC}/objects/obj_xref.c
   ${CRYPTO_SRC}/evp/encode.c ${CRYPTO_SRC}/evp/digest.c ${CRYPTO_SRC}/evp/evp_enc.c
+  ${CRYPTO_SRC}/evp/evp_cnf.c
   ${CRYPTO_SRC}/evp/evp_key.c	${CRYPTO_SRC}/evp/evp_acnf.c ${CRYPTO_SRC}/evp/e_des.c
   ${CRYPTO_SRC}/evp/e_bf.c ${CRYPTO_SRC}/evp/e_idea.c ${CRYPTO_SRC}/evp/e_des3.c
   ${CRYPTO_SRC}/evp/e_camellia.c ${CRYPTO_SRC}/evp/e_rc4.c ${CRYPTO_SRC}/evp/e_aes.c

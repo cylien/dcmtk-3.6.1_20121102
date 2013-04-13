@@ -160,8 +160,8 @@ ENDIF(WIN32)
     SET(ICONV_LIBRARY   "iconv")
     SET(XML2_LIBRARY    "libxml2")
     SET(OPENSSL_LIBRARY "openssl")
-    SET(SSL_LIBRARY "dcmtkeay")
-    SET(CRYPTO_LIBRARY "ssleay")
+    SET(SSL_LIBRARY "ssleay")
+    SET(CRYPTO_LIBRARY "dcmtkeay")
 
     # libxml support: find out whether user has library
     GET_FILENAME_COMPONENT(XML2_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/libxml2-2.9.0" ABSOLUTE)
