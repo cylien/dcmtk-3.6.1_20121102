@@ -160,7 +160,7 @@ ENDIF(WIN32)
     SET(ICONV_LIBRARY   "iconv")
     SET(XML2_LIBRARY    "libxml2")
     SET(OPENSSL_LIBRARY "openssl")
-    SET(SSL_LIBRARY "ssleay")
+    SET(SSL_LIBRARY "dcmtkssl")
     SET(CRYPTO_LIBRARY "dcmtkeay")
 
     # libxml support: find out whether user has library
