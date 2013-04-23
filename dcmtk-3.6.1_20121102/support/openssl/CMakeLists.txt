@@ -225,7 +225,6 @@ SET(CRYPTO_SRCS ${CRYPTO_SRC}/cryptlib.c
   ${CRYPTO_SRC}/err/err_prn.c	${CRYPTO_SRC}/objects/o_names.c ${CRYPTO_SRC}/objects/obj_dat.c
   ${CRYPTO_SRC}/objects/obj_lib.c	${CRYPTO_SRC}/objects/obj_err.c ${CRYPTO_SRC}/objects/obj_xref.c
   ${CRYPTO_SRC}/evp/encode.c ${CRYPTO_SRC}/evp/digest.c ${CRYPTO_SRC}/evp/evp_enc.c
-  ${CRYPTO_SRC}/evp/evp_cnf.c
   ${CRYPTO_SRC}/evp/evp_key.c	${CRYPTO_SRC}/evp/evp_acnf.c ${CRYPTO_SRC}/evp/e_des.c
   ${CRYPTO_SRC}/evp/e_bf.c ${CRYPTO_SRC}/evp/e_idea.c ${CRYPTO_SRC}/evp/e_des3.c
   ${CRYPTO_SRC}/evp/e_camellia.c ${CRYPTO_SRC}/evp/e_rc4.c ${CRYPTO_SRC}/evp/e_aes.c
@@ -329,6 +328,8 @@ SET(CRYPTO_SRCS ${CRYPTO_SRC}/cryptlib.c
   ${CRYPTO_SRC}/ts/ts_rsp_print.c ${CRYPTO_SRC}/ts/ts_rsp_sign.c ${CRYPTO_SRC}/ts/ts_rsp_verify.c
   ${CRYPTO_SRC}/ts/ts_verify_ctx.c ${CRYPTO_SRC}/ts/ts_lib.c ${CRYPTO_SRC}/ts/ts_conf.c
   ${CRYPTO_SRC}/ts/ts_asn1.c ${CRYPTO_SRC}/srp/srp_lib.c ${CRYPTO_SRC}/srp/srp_vfy.c
+# Version is greater than 1.0.1e
+  ${CRYPTO_SRC}/evp/evp_cnf.c
 )
 
 SET(GOST_SRCS ${ENGS_SRC}/ccgost/e_gost_err.c
