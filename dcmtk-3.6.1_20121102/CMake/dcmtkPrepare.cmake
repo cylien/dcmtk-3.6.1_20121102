@@ -40,6 +40,7 @@ SET(DCMTK_LIBRARY_PROPERTIES VERSION "${DCMTK_PACKAGE_VERSION}" SOVERSION "${DCM
 OPTION(BUILD_APPS "Build command line applications and test programs." ON)
 OPTION(BUILD_SHARED_LIBS "Build with shared libraries." OFF)
 OPTION(BUILD_WITH_3RD_LIBS "Integrated build with supported libraries." ON)
+OPTION(OPENSSL_ASM_SUPPORT "OppenSSL enables the support of assembling." ON)
 OPTION(BUILD_WITH_PRE_BUILT_3RD_LIBS "build with the pre-bulit supported libraries." OFF)
 OPTION(BUILD_SINGLE_SHARED_LIBRARY "Build a single DCMTK library." OFF)
 MARK_AS_ADVANCED(BUILD_SINGLE_SHARED_LIBRARY)
