@@ -4,8 +4,8 @@ SET(PERL_TMP_D_HEADER
   crypto/cryptlib.h 
 #  crypto/buildinf.h
   crypto/md32_common.h
-	crypto/o_time.h
-  crypto/o_str.h                                        
+  crypto/o_time.h
+  crypto/o_str.h
   crypto/o_dir.h
   crypto/md4/md4_locl.h
   crypto/md5/md5_locl.h
@@ -174,4 +174,6 @@ SET(ASM_FILE_LIST
   crypto/bn/asm/co-586.pl
   crypto/bn/asm/x86-mont.pl
   crypto/bn/asm/x86-gf2m.pl
+  # Version is greater than 1.0.1e
+  crypto/whrlpool/asm/wp-mmx.pl
 )  
