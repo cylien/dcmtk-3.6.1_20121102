@@ -14,7 +14,7 @@ INCLUDE(CheckCSourceCompiles)
 ENABLE_TESTING()
 
 #-----------------------------------------------------------------------------
-# Check for include files, functions and symbols.
+# Check for include files, functions and symbofls.
 #-----------------------------------------------------------------------------
 CHECK_INCLUDE_FILE(stdint.h HAVE_STDINT_H)
 CHECK_INCLUDE_FILE(inttypes.h HAVE_INTTYPES_H)
@@ -43,6 +43,15 @@ ENDIF(UNIX)
 IF(WIN32)
   CONFIGURE_FILE(${WITH_LIBXMLINC}/include/win32config.h ${CMAKE_CURRENT_BINARY_DIR}/${XML2_LIBRARY}/config.h)
   ADD_DEFINITIONS(-DWIN32)
+  # _imp__xmlFree listed is as missing in mingw for static link. see ./include/xml/xmlexports.h in more detail.
+  IF(MINGW)
+    FILE(READ ${WITH_LIBXMLINC}/include/libxml/xmlexports.h XMLEXPORTS_H)
+      STRING(REPLACE "by also making that declaration when compiling client code.\n   */\n  #if defined(IN_LIBXML) && !defined(LIBXML_STATIC)"
+        "by also making that declaration when compiling client code.\n   */\n  #if !defined(LIBXML_STATIC)" NEW_XMLEXPORTS_H ${XMLEXPORTS_H})
+    FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${XML2_LIBRARY}/libxml/xmlexports.h ${NEW_XMLEXPORTS_H})
+  ELSE(MINGW)
+    FILE(COPY ${WITH_LIBXMLINC}/include/libxml/xmlexports.h DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/${XML2_LIBRARY}/libxml/xmlexports.h ${NEW_XMLEXPORTS_H})
+  ENDIF(MINGW)
 ENDIF(WIN32)
 INCLUDE_DIRECTORIES(${WITH_LIBXMLINC}
   ${WITH_LIBXMLINC}/include
@@ -62,7 +71,7 @@ SET(LIBXML_PUBLIC_HDRS
   ${WITH_LIBXMLINC}/include/libxml/DOCBparser.h
   ${WITH_LIBXMLINC}/include/libxml/encoding.h
   ${WITH_LIBXMLINC}/include/libxml/entities.h
-  ${WITH_LIBXMLINC}/include/libxml/xmlexports.h
+  ${CMAKE_CURRENT_BINARY_DIR}/${XML2_LIBRARY}/libxml/xmlexports.h
   ${WITH_LIBXMLINC}/include/libxml/globals.h
   ${WITH_LIBXMLINC}/include/libxml/hash.h
   ${WITH_LIBXMLINC}/include/libxml/HTMLparser.h
