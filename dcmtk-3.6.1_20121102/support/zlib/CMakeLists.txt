@@ -17,7 +17,7 @@ ENABLE_TESTING()
 #-----------------------------------------------------------------------------
 INCLUDE(${CMAKE_MODULE_PATH}/dcmtkMacros.cmake)
 CHECK_INCLUDE_FILE(sys/types.h HAVE_SYS_TYPES_H)
-#CHECK_INCLUDE_FILE(stdint.h   HAVE_STDINT_H)
+CHECK_INCLUDE_FILE(stdint.h   HAVE_STDINT_H)
 CHECK_INCLUDE_FILE(stddef.h    HAVE_STDDEF_H)
 CHECK_INCLUDE_FILE(stddef.h    Z_PREFIX)
 CHECK_INCLUDE_FILE(unistd.h    Z_HAVE_UNISTD_H)
@@ -50,6 +50,7 @@ endif()
 SET(ZLIB_PC ${WITH_ZLIBINC}/zlib.pc)
 CONFIGURE_FILE(${WITH_ZLIBINC}/zlib.pc.cmakein ${ZLIB_PC} @ONLY)
 CONFIGURE_FILE(${WITH_ZLIBINC}/zconf.h.cmakein ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zconf.h @ONLY)
+CONFIGURE_FILE(${WITH_ZLIBINC}/zlib.h ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY}/zlib.h @ONLY)
 INCLUDE_DIRECTORIES(${WITH_ZLIBINC} ${CMAKE_CURRENT_BINARY_DIR}/${ZLIB_LIBRARY})
 
 #-----------------------------------------------------------------------------

@@ -7,21 +7,10 @@ PROJECT(libpng C)
 # Platform-specific settings
 #-----------------------------------------------------------------------------
 INCLUDE(${CMAKE_MODULE_PATH}/dcmtkMacros.cmake)
+SET(M_LIBRARY "")
 IF(NOT WIN32)
-  FIND_LIBRARY(M_LIBRARY NAMES m PATHS /usr/lib /usr/local/lib)
-  IF(NOT M_LIBRARY)
-    MESSAGE(STATUS "math library 'libm' not found - floating point support disabled")
-  ENDIF()
-ELSE()
-  # not needed on windows
-  SET(M_LIBRARY "")
+  FIND_LIBRARY(M_LIBRARY NAMES m PATHS "/usr/lib/" "/usr/local/lib/")
 ENDIF()
-
-# Some needed to define
-ADD_DEFINITIONS(-DPNG_CONFIGURE_LIBPNG)
-IF(BUILD_SHARED_LIBS)
-  ADD_DEFINITIONS(-DPNG_BUILD_DLL )
-ENDIF(BUILD_SHARED_LIBS)
 ENABLE_TESTING()
 #-----------------------------------------------------------------------------
 # Configuation for header files
@@ -31,7 +20,7 @@ ENABLE_TESTING()
 # configured directly (to do so indirectly use your local awk to build a
 # pnglibconf.h in the build directory.)
 CONFIGURE_FILE(${WITH_LIBPNGINC}/scripts/pnglibconf.h.prebuilt
-               ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY}/pnglibconf.h)              
+               ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY}/pnglibconf.h)
 INCLUDE_DIRECTORIES(${WITH_LIBPNGINC}
   ${CMAKE_CURRENT_BINARY_DIR}/${PNG_LIBRARY} 
   ${WITH_ZLIBINC}
@@ -72,9 +61,18 @@ set(LIBPNG_SOURCES
 #-----------------------------------------------------------------------------
 IF(BUILD_SHARED_LIBS)
   ADD_LIBRARY(${PNG_LIBRARY} SHARED ${LIBPNG_PUBLIC_HDRS} ${LIBPNG_SOURCES})
+  IF(WIN32)
+    SET_TARGET_PROPERTIES(${PNG_LIB_NAME} SHARED PROPERTIES
+      DEFINE_SYMBOL PNG_BUILD_DLL
+      CLEAN_DIRECT_OUTPUT 1)
+      # To be solved !!!
+      # it should be added in debug mode. BUT  modification reflects to main DCMTK CMake settings.
+      #add_definitions(-DPNG_DEBUG)
+  ENDIF(WIN32)
 ELSE(BUILD_SHARED_LIBS)
   ADD_LIBRARY(${PNG_LIBRARY} STATIC ${LIBPNG_PUBLIC_HDRS} ${LIBPNG_SOURCES})
 ENDIF(BUILD_SHARED_LIBS)
+
 TARGET_LINK_LIBRARIES(${PNG_LIBRARY} ${ZLIB_LIBRARY} ${M_LIBRARY})
 ADD_DEPENDENCIES(${PNG_LIBRARY} ${ZLIB_LIBRARY})
 

@@ -9,8 +9,11 @@ PROJECT(openssl C)
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/PerlFileList.cmake)
 FIND_PROGRAM(PERL perl)
 FIND_PROGRAM(NASM nasm)
-IF(NOT PERL OR NOT NASM)
-  MESSAGE(SEND_ERROR "PERL or NASM does not install.")
+IF(NOT PERL)
+  MESSAGE("PERL does not install.")
+ENDIF()
+IF(NOT NASM)
+  MESSAGE("NASM does not install.")
 ENDIF()
 ENABLE_TESTING()
 
@@ -54,24 +57,23 @@ IF(WIN32)
     LIST(APPEND ASM_CFLAG "${ASM_CFLAG} -D_MT -fomit-frame-pointer -Wall")
     SET(WIN32_LIBRARIES ws2_32 gdi32 crypt32)
   ENDIF(MINGW)
-  #Assembling definition
-  IF(OPENSSL_ASM_SUPPORT)
-    LIST(APPEND ASM_CFLAG "${ASM_CFLAG} -DNO_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DOPENSSL_BN_ASM_PART_WORDS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_GF2m -DRMD160_ASM -DAES_ASM -DVPAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM")
-    SET(NASM_CFLAG /Ox /Od /Ob2 -W3 -Gs0 -GF -Gy -nologo)
-    SET(NASM_OPTION win32)
-    IF(DCMTK_LIBRARY_TYPE EQUAL SHARED)
-      SET(NASM_OBJ_FLAG debug /MDd optimized /MD)
-      LIST(APPEND NASM_OBJ_FLAG "${NASM_OBJ_FLAG} -OPENSSL_BUILD_SHLIBCRYPTO")
-    ELSEIF(DCMTK_LIBRARY_TYPE EQUAL STATIC)
-      SET(NASM_OBJ_FLAG debug /MTd optimized /MT)
-    ENDIF()
-  ELSE(OPENSSL_ASM_SUPPORT)
-      LIST(APPEND ASM_CFLAG "${ASM_CFLAG} -DNO_ASM")
-  ENDIF(OPENSSL_ASM_SUPPORT)
-  #defione the complie definitions
-  ADD_DEFINITIONS(${ASM_CFLAG})
 ENDIF(WIN32)
-
+#Assembling definition. Currently only support on WIN32
+IF(OPENSSL_ASM_SUPPORT)
+  LIST(APPEND ASM_CFLAG "${ASM_CFLAG} -DNO_ASM -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DMD5_ASM -DOPENSSL_BN_ASM_PART_WORDS -DOPENSSL_IA32_SSE2 -DOPENSSL_BN_ASM_MONT -DOPENSSL_BN_ASM_GF2m -DRMD160_ASM -DAES_ASM -DVPAES_ASM -DWHIRLPOOL_ASM -DGHASH_ASM")
+  SET(NASM_CFLAG /Ox /Od /Ob2 -W3 -Gs0 -GF -Gy -nologo)
+  SET(NASM_OPTION win32)
+  IF(DCMTK_LIBRARY_TYPE EQUAL SHARED)
+    SET(NASM_OBJ_FLAG debug /MDd optimized /MD)
+    LIST(APPEND NASM_OBJ_FLAG "${NASM_OBJ_FLAG} -OPENSSL_BUILD_SHLIBCRYPTO")
+  ELSEIF(DCMTK_LIBRARY_TYPE EQUAL STATIC)
+    SET(NASM_OBJ_FLAG debug /MTd optimized /MT)
+  ENDIF()
+ELSE(OPENSSL_ASM_SUPPORT)
+    LIST(APPEND ASM_CFLAG "${ASM_CFLAG} -DNO_ASM -DOPENSSL_NO_ASM")
+ENDIF(OPENSSL_ASM_SUPPORT)
+#defione the complie definitions
+ADD_DEFINITIONS(${ASM_CFLAG})
 #-----------------------------------------------------------------------------
 # Perl and NASM. Configuation for header files by perl script
 #-----------------------------------------------------------------------------
@@ -86,7 +88,11 @@ IF(WIN32)
     SET(PERL_PER_Command ${PERL} Configure no-asm mingw)
     SET(COPY_CMD cmake -E copy)
   ENDIF(MINGW)
-
+ENDIF(WIN32)
+IF(UNIX)
+    SET(PERL_PER_Command ${PERL} Configure no-asm gcc)
+    SET(COPY_CMD ${PERL} util/copy.pl)
+ENDIF(UNIX)
   ADD_CUSTOM_COMMAND(OUTPUT Perl_Configure
       COMMAND ${PERL_PER_Command}
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
@@ -134,7 +140,6 @@ IF(WIN32)
     ENDFOREACH()
     ADD_CUSTOM_TARGET(NASM_ASM_SCRIPT ALL DEPENDS ${NASM_FILES})
   ENDIF(OPENSSL_ASM_SUPPORT)
-ENDIF(WIN32)
 #-----------------------------------------------------------------------------
 # Configuation for header files
 #-----------------------------------------------------------------------------
