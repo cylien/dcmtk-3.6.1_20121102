@@ -6,7 +6,7 @@ IF(WIN32)
 
     # libxml support: find out whether user has library
     GET_FILENAME_COMPONENT(LIBXML_DIR "${DCMTK_SOURCE_DIR}/../libxml2-2.7.7" ABSOLUTE)
-    FIND_PATH(WITH_LIBXMLINC "/include/libxml/parser.h" "${LIBXML_DIR}"/ NO_DEFAULT_PATH)
+    FIND_PATH(WITH_LIBXMLINC "/include/libxml/parser.h" "${LIBXML_DIR}" NO_DEFAULT_PATH)
     MARK_AS_ADVANCED(LIBXML_DIR WITH_LIBXMLINC)
 
     # libpng support: find out whether user has library
@@ -166,7 +166,7 @@ ENDIF(WIN32)
 
     # libxml support: find out whether user has library
     GET_FILENAME_COMPONENT(XML2_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/libxml2-2.9.0" ABSOLUTE)
-    FIND_PATH(WITH_LIBXMLINC "/include/libxml/parser.h" "${XML2_ORIGN_DIR}"/ NO_DEFAULT_PATH)
+    FIND_PATH(WITH_LIBXMLINC "/include/libxml/parser.h" "${XML2_ORIGN_DIR}" NO_DEFAULT_PATH)
 
     # libtiff support: find out whether user has library
     GET_FILENAME_COMPONENT(TIFF_ORIGN_DIR "${DCMTK_SOURCE_DIR}/../3rdlib/tiff-4.0.3" ABSOLUTE)
