@@ -10,7 +10,7 @@ ftp://dicom.offis.de/pub/dicom/offis/software/dcmtk/dcmtk360/support/dcmtk-3.6.0
 Pre-compiled libraries for Windows (32 bit) with "MD" option
 ftp://dicom.offis.de/pub/dicom/offis/software/dcmtk/dcmtk360/support/dcmtk-3.6.0-win32-i386-support_MD.zip
 
-The version of those libraries wasn't updated to the latest timely, because it will take much time to build them. Also, the versions of each libraries are quite old i.e zlib 1.2.5, libtiff 3.9.4, libpng 1.4.3, libxml2 2.7.7 with libiconv 1.13.1 and OpenSSL 1.0.0c
+The version of those libraries wasn't updated to the latest timely, because it will take much time to build them. Also, the version of each library is quite old i.e zlib 1.2.5, libtiff 3.9.4, libpng 1.4.3, libxml2 2.7.7 with libiconv 1.13.1 and OpenSSL 1.0.0c
 
 This project provides the CMake script to compile the DCMTK and those libraries automatically. User can download the latest libraries and compile with the snapshot of DCMTK. 
 
